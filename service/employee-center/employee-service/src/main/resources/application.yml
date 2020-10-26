@@ -1,0 +1,57 @@
+
+server:
+  port: 21000
+  # spring boot 2.3.X和2.2.X的一个异常处理的改动
+  error:
+    includeException: true
+    includeStacktrace: ON_PARAM
+    includeMessage: ALWAYS
+#  servlet:
+#    context-path: /coupon-user
+
+
+spring:
+  application:
+    name: employee-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate.format_sql: true
+      hibernate.show_sql: true
+    open-in-view: false
+
+  datasource:
+    # 数据源
+    url: jdbc:mysql://127.0.0.1:3306/employee_db?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
+    username: canal
+    password: canal
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池
+    hikari:
+      connection-timeout: 20000
+      idle-timeout: 20000
+      maximum-pool-size: 20
+      minimum-idle: 5
+      max-lifetime: 30000
+      auto-commit: true
+      pool-name: BroadviewCouponHikari
+
+management:
+  endpoint:
+    health:
+      # 总是显示各个组件的actuator信息
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有endpoint
+        include: '*'
+  security:
+    enabled: false

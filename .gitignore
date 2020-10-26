@@ -21,12 +21,6 @@
 *.iml
 .idea
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-
-# Patterns to ignore when building packages.
-# This supports shell glob matching, relative path matching, and
-# negation (prefixed with !). Only one pattern per line.
 .DS_Store
 # Common VCS dirs
 .git/
@@ -45,3 +39,9 @@ hs_err_pid*
 .project
 .idea/
 *.tmproj
+*.png
+
+# known compile time folders
+target/
+node_modules/
+vendor/

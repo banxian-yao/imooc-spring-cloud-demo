@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 
-//@EnableFeignClients(basePackages = {"com.broadview"})
 @EnableDiscoveryClient
-//@EnableCircuitBreaker
 @EnableJpaAuditing
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.imooc"})

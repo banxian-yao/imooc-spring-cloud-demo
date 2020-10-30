@@ -6,9 +6,6 @@ server:
     includeException: true
     includeStacktrace: ON_PARAM
     includeMessage: ALWAYS
-#  servlet:
-#    context-path: /coupon-user
-
 
 spring:
   application:

@@ -6,9 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-//@EnableFeignClients(basePackages = {"com.broadview"})
 @EnableDiscoveryClient
-//@EnableCircuitBreaker
 @EnableJpaAuditing
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.imooc"})

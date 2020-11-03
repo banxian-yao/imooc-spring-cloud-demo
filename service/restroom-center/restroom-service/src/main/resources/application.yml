@@ -41,6 +41,7 @@ spring:
         # 命名空间ID，Nacos通过不同的命名空间来区分不同的环境，进行数据隔离，
         # 服务消费时只能消费到对应命名空间下的服务。
 #        namespace: mySpace
+        group: myGroup
         # 向注册中心注册服务，默认为true
         # 如果只消费服务，不作为服务提供方，倒是可以设置成false，减少开销
         register-enabled: true

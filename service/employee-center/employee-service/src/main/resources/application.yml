@@ -38,7 +38,7 @@ spring:
       minimum-idle: 5
       max-lifetime: 30000
       auto-commit: true
-      pool-name: BroadviewCouponHikari
+      pool-name: imoocHikari
 
 management:
   endpoint:

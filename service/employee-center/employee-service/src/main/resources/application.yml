@@ -14,6 +14,8 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        # employee-service也必须配置相同的group才能发起访问
+#        group: myGroup
   jpa:
     show-sql: true
     hibernate:
@@ -40,6 +42,19 @@ spring:
       auto-commit: true
       pool-name: imoocHikari
 
+ribbon:
+  # 创建RibbonClient
+  eager-load:
+    enabled: true
+    clients: restroom-service
+
+
+# 发送到restroom-service服务的负载均衡配置
+restroom-service:
+  ribbon:
+    # 指定负载均衡策略为随机访问策略
+    # 一般采用默认的RoundRobin负载均衡策略
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 management:
   endpoint:
     health:

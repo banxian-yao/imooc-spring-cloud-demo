@@ -29,7 +29,8 @@ spring:
         # 服务端没有接受到客户端心跳请求就将其设为不健康的时间间隔，默认为15s
         # 注：推荐值该值为15s即可，如果有的业务线希望服务下线或者出故障时希望尽快被发现，可以适当减少该值
         heart-beat-timeout: 20000
-        ip: 172.20.7.228
+        # [注意] 这个IP地址如果更换网络后变化，会导致服务调用失败，建议先不要设置
+        # ip: 172.20.7.228
         # 元数据部分
         metadata:
           mydata: freestyle
@@ -40,9 +41,10 @@ spring:
         cluster-name: Cluster-2
         # 命名空间ID，Nacos通过不同的命名空间来区分不同的环境，进行数据隔离，
         # 服务消费时只能消费到对应命名空间下的服务。
-        # 需要在nacos-server中创建好namespace，然后把id copy进来
-#        namespace: b0140359-be13-4d3e-8aed-aaea743c6da6
-        group: myGroup
+        # [注意]需要在nacos-server中创建好namespace，然后把id copy进来
+        # namespace: b0140359-be13-4d3e-8aed-aaea743c6da6
+        # [注意]employee-service也必须配置相同的group才能发起访问
+        # group: myGroup
         # 向注册中心注册服务，默认为true
         # 如果只消费服务，不作为服务提供方，倒是可以设置成false，减少开销
         register-enabled: true
@@ -51,7 +53,6 @@ spring:
           enabled: true
         watch-delay: 30000
 
-  #        heart-beat-timeout: 5
   jpa:
     show-sql: true
     hibernate:
@@ -104,6 +105,6 @@ management:
   security:
     enabled: false
 
-logging:
-  level:
-    ROOT: debug
+#logging:
+#  level:
+#    ROOT: debug

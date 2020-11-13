@@ -11,16 +11,23 @@ spring:
   application:
     name: employee-service
   cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-      cache:
-        enabled: true
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+#      cache:
+#        enabled: true
+#        ttl: 35s
+#        capacity: 998
+#      retry:
+#        enabled: true
+#      service-discovery:
+#        timeout: 1s
     nacos:
       discovery:
         server-addr: localhost:8848
         # employee-service也必须配置相同的group才能发起访问
-#        group: myGroup
+        cluster-name: Cluster-2
+  #        group: myGroup
   jpa:
     show-sql: true
     hibernate:
@@ -69,7 +76,8 @@ restroom-service:
   ribbon:
     # 指定负载均衡策略为随机访问策略
     # 一般采用默认的RoundRobin负载均衡策略
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+    NFLoadBalancerRuleClassName: com.imooc.employee.loadbalancer.ClusterFirstRule
 #    # 指定IPing策略（一般策略中不指定IPing），配合Feign使用
 #    NFLoadBalancerPingClassName: com.netflix.niws.loadbalancer.NIWSDiscoveryPing
 #    ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）

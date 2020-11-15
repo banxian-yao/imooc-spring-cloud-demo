@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @FeignClient(value = "restroom-service")
-public interface RestrommFeignClient extends IRestroomService {
+public interface RestroomFeignClient extends IRestroomService {
 
-    @GetMapping("/toilet-service/get")
+    @GetMapping("/toilet-service/checkAvailability")
     public Toilet getToilet(@RequestParam("id") Long id);
 
     @GetMapping("/toilet-service/checkAvailable")
@@ -22,4 +22,7 @@ public interface RestrommFeignClient extends IRestroomService {
     @PostMapping("/toilet-service/release")
     public Toilet release(@RequestParam("id") Long id);
 
+    // 测试方法
+    @GetMapping("/toilet-service/checkAvailability")
+    public void test(@RequestParam("id") Long id);
 }

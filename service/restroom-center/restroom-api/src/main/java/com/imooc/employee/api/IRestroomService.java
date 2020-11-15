@@ -13,4 +13,6 @@ public interface IRestroomService {
     public Toilet occupy(Long id);
 
     public Toilet release(Long id);
+
+    abstract void test(Long id);
 }

@@ -32,6 +32,9 @@ public class RestroomService implements IRestroomService {
     @Override
     @GetMapping("/checkAvailable")
     public List<Toilet> getAvailableToilet() {
+
+//        throw new RuntimeException("test");
+//        Thread.sleep(1000);
         List<ToiletEntity> result = toiletDao.findAllByCleanAndAvailable(true, true);
 
         return result.stream()
@@ -79,6 +82,11 @@ public class RestroomService implements IRestroomService {
             log.error("cannot occupy the restromm", e);
             throw e;
         }
+    }
+
+    @Override
+    public void test(Long id) {
+
     }
 
 }

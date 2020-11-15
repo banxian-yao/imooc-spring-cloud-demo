@@ -1,32 +1,25 @@
 package com.imooc.employee.service;
 
-import com.google.common.collect.Maps;
 import com.imooc.employee.api.IEmployeeActivityService;
 import com.imooc.employee.api.IRestroomService;
 import com.imooc.employee.dao.EmployeeActivityDao;
 import com.imooc.employee.entity.EmployeeActivityEntity;
-import com.imooc.employee.feign.RestrommFeignClient;
+import com.imooc.employee.feign.RestroomFeignClient;
 import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.employee.pojo.Toilet;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -44,16 +37,9 @@ public class EmployeeService implements IEmployeeActivityService {
 
     @Transactional
     @PostMapping("/test")
-    public Toilet[] test() {
+    public void test(Long count) {
         // 发起远程调用
-        Toilet[] toilets = restTemplate.getForObject(
-                "http://restroom-service/toilet-service/checkAvailable/",
-                Toilet[].class);
-        if (ArrayUtils.isEmpty(toilets)) {
-            throw new RuntimeException("shit in urinal");
-        }
-
-        return toilets;
+        restroomService.test(count);
     }
 
     @Override

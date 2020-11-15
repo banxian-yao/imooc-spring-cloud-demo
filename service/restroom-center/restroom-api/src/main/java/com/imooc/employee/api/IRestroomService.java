@@ -10,8 +10,6 @@ public interface IRestroomService {
 
     public List<Toilet> getAvailableToilet();
 
-    public boolean checkAvailability(Long id);
-
     public Toilet occupy(Long id);
 
     public Toilet release(Long id);

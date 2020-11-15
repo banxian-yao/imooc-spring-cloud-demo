@@ -40,11 +40,6 @@ public class RestroomService implements IRestroomService {
     }
 
     @Override
-    public boolean checkAvailability(Long id) {
-        return false;
-    }
-
-    @Override
     @Transactional
     @PostMapping("/occupy")
     @ResponseBody

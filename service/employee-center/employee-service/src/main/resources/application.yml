@@ -12,8 +12,10 @@ spring:
     name: employee-service
   cloud:
 #    loadbalancer:
+#      # 禁用Ribbon，开启Loadbalancer的负载均衡策略
 #      ribbon:
 #        enabled: false
+#      # 使用LB缓存机制
 #      cache:
 #        enabled: true
 #        ttl: 35s
@@ -21,12 +23,12 @@ spring:
 #      retry:
 #        enabled: true
 #      service-discovery:
-#        timeout: 1s
+#        timeout: 10s
     nacos:
       discovery:
         server-addr: localhost:8848
-        # employee-service也必须配置相同的group才能发起访问
-        cluster-name: Cluster-2
+        # employee-service也必须配置相同的group才能发起访问，先注释掉
+        #cluster-name: Cluster-2
   #        group: myGroup
   jpa:
     show-sql: true
@@ -57,7 +59,7 @@ spring:
 # Ribbon全局配置
 # 如果配置了Feign接口超时，那么ribbon超时配置则不生效
 ribbon:
-  # 创建RibbonClient
+  # 创建RibbonClient的时候采用饥饿加载方式ß
   eager-load:
     enabled: true
     clients: restroom-service
@@ -77,7 +79,8 @@ restroom-service:
     # 指定负载均衡策略为随机访问策略
     # 一般采用默认的RoundRobin负载均衡策略
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
-    NFLoadBalancerRuleClassName: com.imooc.employee.loadbalancer.ClusterFirstRule
+    # 采用自定义的负载均衡策略，当前集群内访问优先的策略，同时支持nacos权重设置
+#    NFLoadBalancerRuleClassName: com.imooc.employee.loadbalancer.ClusterFirstRule
 #    # 指定IPing策略（一般策略中不指定IPing），配合Feign使用
 #    NFLoadBalancerPingClassName: com.netflix.niws.loadbalancer.NIWSDiscoveryPing
 #    ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）

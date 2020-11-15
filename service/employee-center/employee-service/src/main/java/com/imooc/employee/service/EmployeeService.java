@@ -2,15 +2,18 @@ package com.imooc.employee.service;
 
 import com.google.common.collect.Maps;
 import com.imooc.employee.api.IEmployeeActivityService;
+import com.imooc.employee.api.IRestroomService;
 import com.imooc.employee.dao.EmployeeActivityDao;
 import com.imooc.employee.entity.EmployeeActivityEntity;
+import com.imooc.employee.feign.RestrommFeignClient;
 import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.employee.pojo.Toilet;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
@@ -36,6 +39,23 @@ public class EmployeeService implements IEmployeeActivityService {
     @Autowired
     private EmployeeActivityDao employeeActivityDao;
 
+    @Autowired
+    private IRestroomService restroomService;
+
+    @Transactional
+    @PostMapping("/test")
+    public Toilet[] test() {
+        // 发起远程调用
+        Toilet[] toilets = restTemplate.getForObject(
+                "http://restroom-service/toilet-service/checkAvailable/",
+                Toilet[].class);
+        if (ArrayUtils.isEmpty(toilets)) {
+            throw new RuntimeException("shit in urinal");
+        }
+
+        return toilets;
+    }
+
     @Override
     @Transactional
     @PostMapping("/toilet-break")
@@ -46,15 +66,13 @@ public class EmployeeService implements IEmployeeActivityService {
             throw new RuntimeException("快拉！");
         }
 
-        Toilet[] toilets = restTemplate.getForObject("http://restroom-service/toilet-service/checkAvailable/", Toilet[].class);
-        if (ArrayUtils.isEmpty(toilets)) {
+        List<Toilet> toilets = restroomService.getAvailableToilet();
+        if (CollectionUtils.isEmpty(toilets)) {
             throw new RuntimeException("shit in urinal");
         }
 
         // 抢坑，分布式事务一致性后面再说
-        MultiValueMap<String, Object> args = new LinkedMultiValueMap<String, Object>();
-        args.add("id", toilets[0].getId());
-        Toilet toilet = restTemplate.postForObject("http://restroom-service/toilet-service/occupy", args, Toilet.class);
+        Toilet toilet = restroomService.occupy(toilets.get(0).getId());
 
         // 保存如厕记录
         EmployeeActivityEntity toiletBreak = EmployeeActivityEntity.builder()
@@ -81,10 +99,8 @@ public class EmployeeService implements IEmployeeActivityService {
             throw new RuntimeException("activity is no longer active");
         }
 
-        // 出，分布式事务一致性后面再说
-        MultiValueMap<String, Object> args = new LinkedMultiValueMap<String, Object>();
-        args.add("id", record.getResourceId());
-        restTemplate.postForObject("http://restroom-service/toilet-service/release", args, Toilet.class);
+        // 分布式事务一致性后面再说
+        restroomService.release(record.getResourceId());
 
         record.setActive(false);
         record.setEndTime(new Date());

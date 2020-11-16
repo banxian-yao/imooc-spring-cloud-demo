@@ -24,6 +24,11 @@ public class EmployeeApplication {
         return new RestTemplate();
     }
 
+    @Bean
+    feign.Logger.Level feignLoggerInfo() {
+        return feign.Logger.Level.FULL;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(EmployeeApplication.class, args);
     }

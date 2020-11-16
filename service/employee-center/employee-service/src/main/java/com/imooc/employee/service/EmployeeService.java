@@ -40,6 +40,9 @@ public class EmployeeService implements IEmployeeActivityService {
     public void test(Long count) {
         // 发起远程调用
         restroomService.test(count);
+//        restTemplate.getForObject(
+//                "http://restroom-service/toilet-service/checkAvailability?id="+count,
+//                Boolean.class);
     }
 
     @Override

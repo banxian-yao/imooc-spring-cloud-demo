@@ -21,7 +21,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Component
+// Component注释掉，不然会被当做默认的负载均衡策略使用
+//@Component
 public class ClusterFirstRule extends AbstractLoadBalancerRule {
 
     @Autowired

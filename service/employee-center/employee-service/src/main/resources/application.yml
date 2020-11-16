@@ -56,6 +56,7 @@ spring:
       auto-commit: true
       pool-name: imoocHikari
 
+
 # Ribbon全局配置
 # 如果配置了Feign接口超时，那么ribbon超时配置则不生效
 ribbon:
@@ -63,31 +64,28 @@ ribbon:
   eager-load:
     enabled: true
     clients: restroom-service
-
-#  ConnectTimeout: 800 #服务请求连接超时时间（毫秒）
-#  ReadTimeout: 800 #服务请求处理超时时间（毫秒）
-#  OkToRetryOnAllOperations: true #对超时请求启用重试机制
-#  MaxAutoRetriesNextServer: 2 #切换重试实例的最大个数
-#  MaxAutoRetries: 1 # 切换实例后重试最大次数
-
-
+  ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
+  ReadTimeout: 1000 #服务请求处理超时时间（毫秒）
+  OkToRetryOnAllOperations: true #对超时请求启用重试机制
+  MaxAutoRetriesNextServer: 2 #切换重试实例的最大个数
+  MaxAutoRetries: 2 # 切换实例后重试最大次数
 
 # 如果配置了Feign接口超时，那么ribbon超时配置则不生效
 # 发送到restroom-service服务的负载均衡配置
-#restroom-service:
-#  ribbon:
-#    #指定负载均衡策略为随机访问策略
-#    #一般采用默认的RoundRobin负载均衡策略
+restroom-service:
+  ribbon:
+    #指定负载均衡策略为随机访问策略
+    #一般采用默认的RoundRobin负载均衡策略
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 #    # 采用自定义的负载均衡策略，当前集群内访问优先的策略，同时支持nacos权重设置
 #    NFLoadBalancerRuleClassName: com.imooc.employee.loadbalancer.ClusterFirstRule
 #    # 指定IPing策略（一般策略中不指定IPing），配合Feign使用
 #    NFLoadBalancerPingClassName: com.netflix.niws.loadbalancer.NIWSDiscoveryPing
-#    ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
-#    ReadTimeout: 1000 #服务请求处理超时时间（毫秒）
-#    OkToRetryOnAllOperations: true #对超时请求启用重试机制
-#    MaxAutoRetriesNextServer: 1 #切换重试实例的最大个数
-#    MaxAutoRetries: 1 # 切换实例后重试最大次数
+    ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
+    ReadTimeout: 2000 #服务请求处理超时时间（毫秒）
+    OkToRetryOnAllOperations: true #对超时请求启用重试机制
+    MaxAutoRetriesNextServer: 1 #切换重试实例的最大个数
+    MaxAutoRetries: 1 # 切换实例后重试最大次数
 
 
 management:

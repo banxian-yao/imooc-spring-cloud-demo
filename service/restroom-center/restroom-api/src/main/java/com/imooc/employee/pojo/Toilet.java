@@ -17,4 +17,6 @@ public class Toilet {
 
     private boolean available;
 
+    private String test;
+
 }

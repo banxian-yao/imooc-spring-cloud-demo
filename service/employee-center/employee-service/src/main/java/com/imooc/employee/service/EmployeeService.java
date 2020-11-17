@@ -11,6 +11,7 @@ import com.imooc.employee.pojo.Toilet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,13 +34,17 @@ public class EmployeeService implements IEmployeeActivityService {
     private EmployeeActivityDao employeeActivityDao;
 
     @Autowired
-    private IRestroomService restroomService;
+    private RestroomFeignClient restroomService;
 
     @Transactional
     @PostMapping("/test")
-    public void test(Long count) {
-        // 发起远程调用
-        restroomService.test(count);
+    // 注意要打开配置文件中的压缩支持
+    public ResponseEntity<byte[]> test(Long count) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 2000; i++) {
+            sb.append(i);
+        }
+        return restroomService.test2(sb.toString());
 //        restTemplate.getForObject(
 //                "http://restroom-service/toilet-service/checkAvailability?id="+count,
 //                Boolean.class);

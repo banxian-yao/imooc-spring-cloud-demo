@@ -105,4 +105,13 @@ logging:
   level:
     ROOT: info
     # 将TemplateClient类的日志级别设置为debug
-    com.imooc.employee.feign.RestroomFeignClient: info
+    com.imooc.employee.feign.RestroomFeignClient: debug
+
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 1024
+    response:
+      enabled: true

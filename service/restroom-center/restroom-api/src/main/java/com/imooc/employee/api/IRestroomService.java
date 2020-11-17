@@ -15,4 +15,5 @@ public interface IRestroomService {
     public Toilet release(Long id);
 
     abstract void test(Long id);
+    public Toilet test2(String id);
 }

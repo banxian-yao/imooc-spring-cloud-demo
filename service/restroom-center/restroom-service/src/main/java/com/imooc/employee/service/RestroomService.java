@@ -86,7 +86,14 @@ public class RestroomService implements IRestroomService {
 
     @Override
     public void test(Long id) {
+    }
 
+
+    @GetMapping("/test")
+    public Toilet test2(String id) {
+        return Toilet.builder()
+                .test(id)
+                .build();
     }
 
 }

@@ -1,6 +1,6 @@
-package com.imooc.employee.dao;
+package com.imooc.restroom.dao;
 
-import com.imooc.employee.entity.ToiletEntity;
+import com.imooc.restroom.entity.ToiletEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

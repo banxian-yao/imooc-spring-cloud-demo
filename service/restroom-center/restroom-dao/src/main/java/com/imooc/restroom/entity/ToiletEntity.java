@@ -1,4 +1,4 @@
-package com.imooc.employee.entity;
+package com.imooc.restroom.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,10 +1,10 @@
-package com.imooc.employee.service;
+package com.imooc.restroom.service;
 
-import com.imooc.employee.api.IRestroomService;
-import com.imooc.employee.converter.ToiletConverter;
-import com.imooc.employee.dao.ToiletDao;
-import com.imooc.employee.entity.ToiletEntity;
-import com.imooc.employee.pojo.Toilet;
+import com.imooc.restroom.api.IRestroomService;
+import com.imooc.restroom.converter.ToiletConverter;
+import com.imooc.restroom.dao.ToiletDao;
+import com.imooc.restroom.entity.ToiletEntity;
+import com.imooc.restroom.pojo.Toilet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

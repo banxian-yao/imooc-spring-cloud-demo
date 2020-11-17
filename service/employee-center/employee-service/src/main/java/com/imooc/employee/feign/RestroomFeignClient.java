@@ -1,7 +1,6 @@
 package com.imooc.employee.feign;
 
-import com.imooc.employee.api.IRestroomService;
-import com.imooc.employee.pojo.Toilet;
+import com.imooc.restroom.pojo.Toilet;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

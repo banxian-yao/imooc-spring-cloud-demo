@@ -1,6 +1,6 @@
-package com.imooc.employee.api;
+package com.imooc.restroom.api;
 
-import com.imooc.employee.pojo.Toilet;
+import com.imooc.restroom.pojo.Toilet;
 
 import java.util.List;
 

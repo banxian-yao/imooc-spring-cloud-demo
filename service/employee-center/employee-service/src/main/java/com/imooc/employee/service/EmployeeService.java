@@ -1,13 +1,12 @@
 package com.imooc.employee.service;
 
 import com.imooc.employee.api.IEmployeeActivityService;
-import com.imooc.employee.api.IRestroomService;
 import com.imooc.employee.dao.EmployeeActivityDao;
 import com.imooc.employee.entity.EmployeeActivityEntity;
 import com.imooc.employee.feign.RestroomFeignClient;
 import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
-import com.imooc.employee.pojo.Toilet;
+import com.imooc.restroom.pojo.Toilet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

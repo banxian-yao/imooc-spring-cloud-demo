@@ -1,4 +1,4 @@
-package com.imooc.employee.pojo;
+package com.imooc.restroom.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

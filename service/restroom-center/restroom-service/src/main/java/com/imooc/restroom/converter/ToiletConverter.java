@@ -1,7 +1,7 @@
-package com.imooc.employee.converter;
+package com.imooc.restroom.converter;
 
-import com.imooc.employee.entity.ToiletEntity;
-import com.imooc.employee.pojo.Toilet;
+import com.imooc.restroom.entity.ToiletEntity;
+import com.imooc.restroom.pojo.Toilet;
 
 public class ToiletConverter {
 

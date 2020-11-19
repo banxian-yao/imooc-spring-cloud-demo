@@ -11,4 +11,50 @@
 
     <artifactId>restroom-api</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.protobuf-java-format</groupId>
+            <artifactId>protobuf-java-format</artifactId>
+            <version>1.2</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+            <groupId>org.xolstice.maven.plugins</groupId>
+            <artifactId>protobuf-maven-plugin</artifactId>
+            <version>0.5.0</version>
+            <extensions>true</extensions>
+            <configuration>
+                <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
+                <outputDirectory>${project.build.directory}/generated-sources/protobuf/java</outputDirectory>
+<!--                <outputDirectory>${project.build.sourceDirectory}</outputDirectory>-->
+                <clearOutputDirectory>false</clearOutputDirectory>
+                <temporaryProtoFileDirectory>${project.build.directory}/protoc-dependencies</temporaryProtoFileDirectory>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                        <goal>test-compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </build>
+
 </project>

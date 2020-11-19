@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
 
 @EnableDiscoveryClient
 @EnableJpaAuditing
@@ -14,9 +17,20 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 @ComponentScan(basePackages = {"com.imooc"})
 public class RestRoomApplication {
 
+    /**
+     * protobuf 序列化
+     */
     @Bean
     ProtobufHttpMessageConverter protobufHttpMessageConverter() {
         return new ProtobufHttpMessageConverter();
+    }
+
+    /**
+     * protobuf 反序列化
+     */
+    @Bean
+    RestTemplate restTemplate(ProtobufHttpMessageConverter protobufHttpMessageConverter) {
+        return new RestTemplate(Collections.singletonList(protobufHttpMessageConverter));
     }
 
     public static void main(String[] args) {

@@ -108,6 +108,7 @@ logging:
     com.imooc.employee.feign.RestroomFeignClient: debug
 
 feign:
+  # feign 压缩解压缩功能
   compression:
     request:
       enabled: true

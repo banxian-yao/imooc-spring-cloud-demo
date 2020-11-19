@@ -1,5 +1,6 @@
 package com.imooc.employee.service;
 
+import com.googlecode.protobuf.format.JsonFormat;
 import com.imooc.employee.api.IEmployeeActivityService;
 import com.imooc.employee.dao.EmployeeActivityDao;
 import com.imooc.employee.entity.EmployeeActivityEntity;
@@ -7,6 +8,7 @@ import com.imooc.employee.feign.RestroomFeignClient;
 import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.restroom.pojo.Toilet;
+import com.imooc.restroom.proto.beans.ToiletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,15 @@ public class EmployeeService implements IEmployeeActivityService {
 
     @Autowired
     private RestroomFeignClient restroomService;
+
+    @Transactional
+    @PostMapping("/proto")
+    // 注意要打开配置文件中的压缩支持
+    public String testProto(Long count) {
+        ToiletResponse response = restroomService.proto("123");
+        log.info(response.toString());
+        return JsonFormat.printToString(response);
+    }
 
     @Transactional
     @PostMapping("/test")

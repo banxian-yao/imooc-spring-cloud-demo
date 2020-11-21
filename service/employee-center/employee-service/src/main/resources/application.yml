@@ -55,6 +55,9 @@ spring:
       max-lifetime: 30000
       auto-commit: true
       pool-name: imoocHikari
+  sleuth:
+    sampler:
+      probability: 1
 
 
 # Ribbon全局配置
@@ -106,6 +109,8 @@ logging:
     ROOT: info
     # 将TemplateClient类的日志级别设置为debug
     com.imooc.employee.feign.RestroomFeignClient: debug
+  pattern:
+    dateformat: HH:mm:ss.SSS
 
 feign:
   # feign 压缩解压缩功能

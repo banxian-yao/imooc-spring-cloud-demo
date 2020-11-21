@@ -104,6 +104,7 @@ public class RestroomService implements IRestroomService {
             method = RequestMethod.POST)
     @ResponseBody
     public ToiletResponse testProto(@RequestParam("id") Long id) {
+        log.info("test proto id={}", id);
         return ToiletResponse.newBuilder()
                 .setId(id)
                 .build();

@@ -19,6 +19,9 @@ server:
 spring:
   application:
     name: restroom-service
+  sleuth:
+    sampler:
+      probability: 1
   cloud:
     nacos:
       discovery:
@@ -107,6 +110,8 @@ management:
   security:
     enabled: false
 
-#logging:
-#  level:
-#    ROOT: debug
+logging:
+  level:
+    ROOT: info
+  pattern:
+    dateformat: HH:mm:ss.SSS

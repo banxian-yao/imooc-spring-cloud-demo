@@ -10,6 +10,7 @@
     <modules>
         <module>service/restroom-center</module>
         <module>service/employee-center</module>
+        <module>platform/zipkin</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -60,11 +61,13 @@
             <artifactId>lombok</artifactId>
             <version>1.16.18</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
+        <!-- 和zipkin有冲突，删掉，懒得排包了 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

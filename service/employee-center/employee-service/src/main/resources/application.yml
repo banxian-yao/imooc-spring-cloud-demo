@@ -58,7 +58,14 @@ spring:
   sleuth:
     sampler:
       probability: 1
-
+  zipkin:
+    sender:
+      type: web
+    discovery-client-enabled: true
+    base-url: http://zipkin-server
+    locator:
+      discovery:
+        enabled: true
 
 # Ribbon全局配置
 # 如果配置了Feign接口超时，那么ribbon超时配置则不生效

@@ -8,6 +8,15 @@ spring:
         server-addr: localhost:8848
   main:
     allow-bean-definition-overriding: true
+
+zipkin:
+  collector:
+    rabbitmq:
+      addresses: 127.0.0.1:5672
+      password: guest
+      username: guest
+      queue: zipkin
+
 server:
   port: 30000
 

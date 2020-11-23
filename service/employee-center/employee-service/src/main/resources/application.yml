@@ -59,13 +59,18 @@ spring:
     sampler:
       probability: 1
   zipkin:
+#    sender:
+#      type: web
     sender:
-      type: web
-    discovery-client-enabled: true
-    base-url: http://zipkin-server
-    locator:
-      discovery:
-        enabled: true
+      type: rabbit
+    rabbitmq:
+      addresses: 127.0.0.1:5672
+      queue: zipkin
+#    discovery-client-enabled: true
+#    base-url: http://zipkin-server
+#    locator:
+#      discovery:
+#        enabled: true
 
 # Ribbon全局配置
 # 如果配置了Feign接口超时，那么ribbon超时配置则不生效

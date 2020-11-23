@@ -17,6 +17,11 @@ server:
 #        log:
 #          level: DEBUG
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   application:
     name: restroom-service
   sleuth:
@@ -25,13 +30,18 @@ spring:
   zipkin:
 #    discovery-client-enabled: false
 #    base-url: http://localhost:30000
+#    sender:
+#      type: web
     sender:
-      type: web
-    discovery-client-enabled: true
-    base-url: http://zipkin-server
-    locator:
-      discovery:
-        enabled: true
+      type: rabbit
+    rabbitmq:
+      addresses: 127.0.0.1:5672
+      queue: zipkin
+  #    discovery-client-enabled: true
+#    base-url: http://zipkin-server
+#    locator:
+#      discovery:
+#        enabled: true
   cloud:
     nacos:
       discovery:

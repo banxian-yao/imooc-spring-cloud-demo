@@ -1,0 +1,33 @@
+1. 下载ELK三合一镜像，如果下载速度慢，可以尝试挂代理下载
+docker pull sebp/elk
+
+2. 创建Docker容器
+只在容器第一次创建的时候执行，后面只要运行docker的start/stop/restart命令
+docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -e ES_MIN_MEM=128m -e ES_MAX_MEM=1024m -it --name imoocelk sebp/elk
+
+3. 进入docker容器（在容器启动的状态下）
+docker exec -it imoocelk /bin/bash
+
+4. 修改配置文件
+配置文件在/etc/logstash/conf.d/02-beats-input.conf
+将内容替换为
+input {
+    beats {
+        port => 5044
+        codec => json_lines
+
+    }
+}
+
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "imooctest"
+    }
+}
+
+5. 重启容器
+docker restart imoocelk
+
+6. 访问Kibana
+http://localhost:5601/

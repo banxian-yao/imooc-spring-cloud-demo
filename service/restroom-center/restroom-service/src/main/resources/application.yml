@@ -130,8 +130,8 @@ management:
   security:
     enabled: false
 
-logging:
-  level:
-    ROOT: info
-  pattern:
-    dateformat: HH:mm:ss.SSS
+#logging:
+#  level:
+#    ROOT: info
+#  pattern:
+#    dateformat: HH:mm:ss.SSS

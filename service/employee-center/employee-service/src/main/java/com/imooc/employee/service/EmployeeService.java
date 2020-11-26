@@ -9,6 +9,7 @@ import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ public class EmployeeService implements IEmployeeActivityService {
     @Override
     @Transactional
     @PostMapping("/toilet-break")
+    @GlobalTransactional(name = "toilet-serv", rollbackFor = Exception.class)
     public EmployeeActivity useToilet(Long employeeId) {
         int count = employeeActivityDao.countByEmployeeIdAndActivityTypeAndActive(
                 employeeId, ActivityType.TOILET_BREAK, true);
@@ -90,6 +92,7 @@ public class EmployeeService implements IEmployeeActivityService {
         EmployeeActivity result = new EmployeeActivity();
         BeanUtils.copyProperties(toiletBreak, result);
         return result;
+//        throw new RuntimeException("分布式");
     }
 
     @Override

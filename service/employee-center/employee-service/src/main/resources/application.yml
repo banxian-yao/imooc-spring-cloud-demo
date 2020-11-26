@@ -29,7 +29,10 @@ spring:
         server-addr: localhost:8848
         # employee-service也必须配置相同的group才能发起访问，先注释掉
         #cluster-name: Cluster-2
-  #        group: myGroup
+        #        group: myGroup
+    alibaba:
+      seata:
+        tx-service-group: seata-server
   jpa:
     show-sql: true
     hibernate:
@@ -133,3 +136,19 @@ feign:
       min-request-size: 1024
     response:
       enabled: true
+
+
+
+seata:
+  application-id: employee-service
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      application: seata-server
+      namespace: public
+      cluster: default
+      group: DEFAULT_GROUP
+  service:
+    vgroup-mapping:
+      seata-server: default

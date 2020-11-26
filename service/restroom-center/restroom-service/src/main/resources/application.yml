@@ -77,6 +77,9 @@ spring:
         watch:
           enabled: true
         watch-delay: 30000
+    alibaba:
+      seata:
+        tx-service-group: seata-server
 
   jpa:
     show-sql: true
@@ -135,3 +138,19 @@ management:
 #    ROOT: info
 #  pattern:
 #    dateformat: HH:mm:ss.SSS
+
+seata:
+  application-id: restroom-service
+  registry:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      application: seata-server
+      namespace: public
+      cluster: default
+      group: DEFAULT_GROUP
+  service:
+    vgroup-mapping:
+      seata-server: default
+
+

@@ -3,6 +3,7 @@ package com.imooc.employee.feign;
 import com.imooc.employee.FeignProtoConfiguration;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
+import io.seata.rm.tcc.api.BusinessActionContext;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,12 @@ public interface RestroomFeignClient {
             consumes = "application/x-protobuf",
             produces = "application/x-protobuf")
     public ToiletResponse proto(@RequestParam("id") String id);
+
+//    @PostMapping("/toilet-service/releaseTCC")
+//    public Toilet releaseTCC(@RequestBody BusinessActionContext actionContext,
+//                                     @RequestParam("id") Long id);
+
+    @PostMapping("/toilet-service/releaseTCC")
+    public Toilet releaseTCC(@RequestParam("id") Long id);
 
 }

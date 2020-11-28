@@ -1,24 +1,28 @@
 package com.imooc.restroom.service;
 
-import com.imooc.restroom.api.IRestroomService;
 import com.imooc.restroom.converter.ToiletConverter;
 import com.imooc.restroom.dao.ToiletDao;
 import com.imooc.restroom.entity.ToiletEntity;
 import com.imooc.restroom.pojo.Toilet;
-import com.imooc.restroom.proto.beans.ToiletRequest;
 import com.imooc.restroom.proto.beans.ToiletResponse;
+import io.seata.rm.tcc.api.BusinessActionContext;
+import io.seata.rm.tcc.api.BusinessActionContextParameter;
+import io.seata.rm.tcc.api.LocalTCC;
+import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
 @RequestMapping("toilet-service")
-public class RestroomService implements IRestroomService {
+@LocalTCC
+public class RestroomService implements IRestroomTccService {
 
     @Autowired
     private ToiletDao toiletDao;
@@ -115,5 +119,61 @@ public class RestroomService implements IRestroomService {
         return Toilet.builder()
                 .id(id)
                 .build();
+    }
+
+    @Transactional
+    @PostMapping("/releaseTCC")
+    public Toilet releaseTCC(Long id) {
+        try {
+            log.info("**** Try release TCC **** id={}, xid={}", id, id);
+            ToiletEntity entity = toiletDao.findById(id)
+                    .orElseThrow(() -> new RuntimeException("toilet not found"));
+            entity.setBooked(true);
+            toiletDao.save(entity);
+            return ToiletConverter.convert(entity);
+        } catch (Exception e) {
+            log.error("cannot occupy the restromm", e);
+            throw e;
+        }
+    }
+
+    @Transactional
+    public boolean releaseCommit(BusinessActionContext actionContext) {
+        try {
+            log.info("class = " + actionContext.getActionContext("id").getClass());
+            Long id = Long.parseLong(actionContext.getActionContext("id").toString());
+            log.info("**** Confirm release TCC **** id={}, xid={}", id, actionContext);
+            Optional<ToiletEntity> optional = toiletDao.findById(id);
+            if (optional.isPresent()) {
+                ToiletEntity entity = optional.get();
+                entity.setClean(true);
+                entity.setAvailable(true);
+                entity.setBooked(false);
+                toiletDao.save(entity);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("cannot occupy the restromm", e);
+            return false;
+        }
+    }
+
+    @Transactional
+    public boolean releaseCancel(BusinessActionContext actionContext) {
+        try {
+            Long id = Long.parseLong(actionContext.getActionContext("id").toString());
+            log.info("**** Cancel release TCC **** id={}, xid={}", id, actionContext);
+            Optional<ToiletEntity> optional = toiletDao.findById(id);
+            if (optional.isPresent()) {
+                ToiletEntity entity = optional.get();
+                entity.setClean(false);
+                entity.setAvailable(false);
+                entity.setBooked(false);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error("cannot occupy the restromm", e);
+            return false;
+        }
     }
 }

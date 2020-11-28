@@ -21,4 +21,5 @@ public interface IRestroomService {
     public Toilet test2(String id);
 
     public ToiletResponse testProto(Long id);
+
 }

@@ -9,6 +9,8 @@ import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
+import io.seata.core.context.RootContext;
+import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -98,6 +100,7 @@ public class EmployeeService implements IEmployeeActivityService {
     @Override
     @Transactional
     @PostMapping("/done")
+    @GlobalTransactional(name = "toilet-release", rollbackFor = Exception.class)
     public EmployeeActivity restoreToilet(Long activityId) {
         EmployeeActivityEntity record = employeeActivityDao.findById(activityId)
                 .orElseThrow(() -> new RuntimeException("record not found"));
@@ -107,7 +110,13 @@ public class EmployeeService implements IEmployeeActivityService {
         }
 
         // 分布式事务一致性后面再说
-        restroomService.release(record.getResourceId());
+//        restroomService.release(record.getResourceId());
+
+        String xid = RootContext.getXID();
+        BusinessActionContext actionContext = new BusinessActionContext();
+        actionContext.setXid(xid);
+//        restroomService.releaseTCC(actionContext, record.getResourceId());
+        restroomService.releaseTCC(record.getResourceId());
 
         record.setActive(false);
         record.setEndTime(new Date());

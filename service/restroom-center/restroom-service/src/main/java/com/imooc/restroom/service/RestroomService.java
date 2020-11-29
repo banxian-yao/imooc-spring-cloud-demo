@@ -6,9 +6,7 @@ import com.imooc.restroom.entity.ToiletEntity;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
 import io.seata.rm.tcc.api.BusinessActionContext;
-import io.seata.rm.tcc.api.BusinessActionContextParameter;
 import io.seata.rm.tcc.api.LocalTCC;
-import io.seata.rm.tcc.api.TwoPhaseBusinessAction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -128,7 +126,7 @@ public class RestroomService implements IRestroomTccService {
             log.info("**** Try release TCC **** id={}, xid={}", id, id);
             ToiletEntity entity = toiletDao.findById(id)
                     .orElseThrow(() -> new RuntimeException("toilet not found"));
-            entity.setBooked(true);
+            entity.setReserved(true);
             toiletDao.save(entity);
             return ToiletConverter.convert(entity);
         } catch (Exception e) {
@@ -148,7 +146,7 @@ public class RestroomService implements IRestroomTccService {
                 ToiletEntity entity = optional.get();
                 entity.setClean(true);
                 entity.setAvailable(true);
-                entity.setBooked(false);
+                entity.setReserved(false);
                 toiletDao.save(entity);
             }
             return true;
@@ -168,7 +166,7 @@ public class RestroomService implements IRestroomTccService {
                 ToiletEntity entity = optional.get();
                 entity.setClean(false);
                 entity.setAvailable(false);
-                entity.setBooked(false);
+                entity.setReserved(false);
             }
             return true;
         } catch (Exception e) {

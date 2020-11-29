@@ -26,6 +26,6 @@ public class ToiletEntity {
     @Column(name = "available", nullable = false)
     private boolean available;
 
-    @Column(name = "booked", nullable = false)
-    private boolean booked;
+    @Column(name = "reserved", nullable = false)
+    private boolean reserved;
 }

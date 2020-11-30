@@ -43,6 +43,10 @@ spring:
 #      discovery:
 #        enabled: true
   cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8719
     nacos:
       discovery:
         # 可以配置多个，逗号分隔

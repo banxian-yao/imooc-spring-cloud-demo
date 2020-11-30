@@ -1,5 +1,8 @@
 package com.imooc.restroom.service;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.google.common.collect.Lists;
 import com.imooc.restroom.converter.ToiletConverter;
 import com.imooc.restroom.dao.ToiletDao;
 import com.imooc.restroom.entity.ToiletEntity;
@@ -27,14 +30,26 @@ public class RestroomService implements IRestroomTccService {
 
     @Override
     @GetMapping("/get")
+    @SentinelResource(value = "getToilet",
+            blockHandler = "getToiletFallback"
+            //, fallback = "getToiletFallback"
+    )
     public Toilet getToilet(Long id) {
         ToiletEntity entity = toiletDao.findById(id)
                 .orElseThrow(() -> new RuntimeException("toilet not found"));
         return ToiletConverter.convert(entity);
     }
 
+    public Toilet getToiletFallback(Long id, BlockException ex) {
+        return Toilet.builder()
+                .test("blocked" + ex.getRuleLimitApp())
+                .build();
+    }
+
+
     @Override
     @GetMapping("/checkAvailable")
+    @SentinelResource(value = "checkAvailable", fallback = "getAvailableToiletFallback")
     public List<Toilet> getAvailableToilet() {
 
 //        throw new RuntimeException("test");

@@ -47,6 +47,13 @@ spring:
       transport:
         dashboard: localhost:8080
         port: 8719
+      datasource:
+        flow:
+          nacos:
+            server-addr: localhost:8848
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            rule-type: flow
     nacos:
       discovery:
         # 可以配置多个，逗号分隔

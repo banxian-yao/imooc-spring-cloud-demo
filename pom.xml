@@ -12,6 +12,7 @@
         <module>service/employee-center</module>
         <module>platform/zipkin</module>
         <module>platform/turbine</module>
+        <module>platform/hystrix-dashboard</module>
     </modules>
     <packaging>pom</packaging>
 

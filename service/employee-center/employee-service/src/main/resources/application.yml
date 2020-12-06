@@ -61,14 +61,16 @@ spring:
   sleuth:
     sampler:
       probability: 1
-  zipkin:
+#  zipkin:
 #    sender:
 #      type: web
-    sender:
-      type: rabbit
-    rabbitmq:
-      addresses: 127.0.0.1:5672
-      queue: zipkin
+#    sender:
+#      type: rabbit
+#    rabbitmq:
+#      addresses: 127.0.0.1:5672
+#      queue: zipkin
+  main:
+    allow-bean-definition-overriding: true
 #    discovery-client-enabled: true
 #    base-url: http://zipkin-server
 #    locator:
@@ -136,7 +138,9 @@ feign:
       min-request-size: 1024
     response:
       enabled: true
-
+  # 开启feign组件hystrix开关
+  hystrix:
+    enabled: true
 
 
 seata:
@@ -152,3 +156,37 @@ seata:
   service:
     vgroup-mapping:
       seata-server: default
+#    disable-global-transaction: true
+
+hystrix:
+  command:
+    default:
+      fallback:
+        enabled: true # 开启降级（默认处于开启状态）
+      circuitBreaker:
+        enabled: true #开启/禁用熔断机制（默认开启）
+        requestVolumeThreshold: 2 # 断路器请求阈值
+        sleepWindowInMilliseconds: 10000 # 断路器等待窗口
+        errorThresholdPercentage: 50 # 断路器错误百分比（触发条件）
+      metrics:
+        rollingStats:
+          timeInMilliseconds: 20000 #滑动窗口持续时间
+          numBuckets: 10 #滑动窗口中bucket数量
+        rollingPercentile:
+          enabled: true #是否执行时间百分比信息
+          timeInMilliseconds: 60000 #执行时间统计周期
+          numBuckets: 6 #执行时间统计内的bucket数量
+          bucketSize: 1000 #每个bucket最多统计的记录条数
+        healthSnapshot:
+          intervalInMilliseconds: 500 #健康快照信息采集间隔
+      execution:
+        timeout:
+          #是否允许超时
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000 # 全局超时时间
+            interruptOnTimeout: true # 超时后是否中断线程
+            interruptOnCancel: true # 取消调用后是否中断线程
+          semaphore:
+            maxConcurrentRequests: 10 #最大并发请求数

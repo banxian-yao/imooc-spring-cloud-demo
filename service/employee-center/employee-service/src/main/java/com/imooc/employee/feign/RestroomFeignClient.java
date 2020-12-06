@@ -1,6 +1,7 @@
 package com.imooc.employee.feign;
 
 import com.imooc.employee.FeignProtoConfiguration;
+import com.imooc.employee.feign.fallback.RestroomFallback;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
 import io.seata.rm.tcc.api.BusinessActionContext;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@FeignClient(value = "restroom-service")
+@FeignClient(value = "restroom-service", fallback = RestroomFallback.class)
 public interface RestroomFeignClient {
 
     @GetMapping("/toilet-service/checkAvailability")

@@ -2,6 +2,7 @@ package com.imooc.employee;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.imooc"})
 @EnableFeignClients(basePackages = {"com.imooc"})
+@EnableCircuitBreaker
 public class EmployeeApplication {
 
     @Bean

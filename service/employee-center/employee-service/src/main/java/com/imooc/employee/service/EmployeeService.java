@@ -9,6 +9,8 @@ import com.imooc.employee.pojo.ActivityType;
 import com.imooc.employee.pojo.EmployeeActivity;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.seata.core.context.RootContext;
 import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.spring.annotation.GlobalTransactional;
@@ -42,12 +44,32 @@ public class EmployeeService implements IEmployeeActivityService {
 
     @Transactional
     @PostMapping("/proto")
+    @HystrixCommand(
+            commandKey = "hystrixTest", //全局唯一标识
+            groupKey = "test", // 全局服务分组，用于组织仪表盘，统计信息，默认是类名
+            fallbackMethod = "testProtoFallback"
+//            threadPoolKey = "threadPoolA", // 线程池分组
+//            // 线程池参数
+//            threadPoolProperties = {
+//                    @HystrixProperty(name ="coreSize", value="30"),
+//                    @HystrixProperty(name ="maxQueueSize", value="50"),
+//                    // 统计维度
+//            },
+//            commandProperties = {
+//            // 也可以注解内通过HystrixProperty直接配置command参数
+//            }
+    )
     // 注意要打开配置文件中的压缩支持
     public String testProto(Long count) {
         ToiletResponse response = restroomService.proto("123");
         log.info(response.toString());
         return JsonFormat.printToString(response);
     }
+
+    public String testProtoFallback(Long count) {
+        return "test fallback";
+    }
+
 
     @Transactional
     @PostMapping("/test")

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: turbine-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+server:
+  # 指定一个不同端口号
+  port: 30001
+
+turbine:
+  aggregator:
+    # 默认集群，可指定采集信息的目标集群
+    cluster-config: default
+  # 配置监听application的名称，多个name之间用逗号间隔
+  app-config: employee-service
+  cluster-name-expression: '"default"'
+  combine-host-port: true
+  instanceUrlSuffix:
+    default: actuator/hystrix.stream

@@ -12,6 +12,8 @@ import io.seata.rm.tcc.api.BusinessActionContext;
 import io.seata.rm.tcc.api.LocalTCC;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("toilet-service")
 @LocalTCC
+@RefreshScope
 public class RestroomService implements IRestroomTccService {
 
     @Autowired
     private ToiletDao toiletDao;
+
+    @Value("${test.value:defaultvalue}")
+    private String nacosValue;
+
+    @Value("${restroom.disable:false}")
+    private boolean disableRestroom;
 
     @Override
     @GetMapping("/get")
@@ -51,9 +60,12 @@ public class RestroomService implements IRestroomTccService {
     @GetMapping("/checkAvailable")
     @SentinelResource(value = "checkAvailable", fallback = "getAvailableToiletFallback")
     public List<Toilet> getAvailableToilet() {
-
 //        throw new RuntimeException("test");
 //        Thread.sleep(1000);
+        if (disableRestroom) {
+            log.info("restroom service is unavailable");
+            return Lists.newArrayList();
+        }
         List<ToiletEntity> result = toiletDao.findAllByCleanAndAvailable(true, true);
 
         return result.stream()
@@ -121,7 +133,7 @@ public class RestroomService implements IRestroomTccService {
             method = RequestMethod.POST)
     @ResponseBody
     public ToiletResponse testProto(@RequestParam("id") Long id) {
-        log.info("test proto id={}", id);
+        log.info("test proto id={}, nacosValue={}", id, nacosValue);
         return ToiletResponse.newBuilder()
                 .setId(id)
                 .build();

@@ -1,0 +1,50 @@
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        # 可以定义属性重载
+        overrides:
+          mytest: mytest_value
+        # github的连接信息
+        git:
+          uri: https://github.com/banxian-yao/config-server.git
+          force-pull: true
+          # 可以配置访问git的用户名密码
+          # username:
+          # password:
+          # 处理SSL连接异常
+          skip-ssl-validation: true
+          search-paths: '{application}'
+          # 该配置项用来指定本地文件保存的路径
+          # basedir: /Users/viyao/test
+          repos:
+            # 当应用请求满足以下pattern规则的时候，则从下面的URI里获取配置文件
+            test-service-2:
+              pattern: foo*/dev*,*service*/test*
+              uri: https://github.com/banxian-yao/foodie-cloud-config
+
+    #      server:
+#        git:
+#          uri: https://github.com/banxian-yao/config-server.git
+#          force-pull: true
+#          basedir: /Users/viyao/config-server
+##          search-paths: '{application}'
+#          default-label: main
+#          skip-ssl-validation: true
+#          search-paths: '{application}'
+#          # 该配置项用来指定本地文件保存的路径
+#          # basedir: /Users/viyao/Downloads/test
+#          repos:
+#            # 当应用请求满足以下pattern规则的时候，则从下面的URI里获取配置文件
+#            test-service-2:
+#              pattern: foo*/dev*,*service*/test*
+#              uri: https://github.com/banxian-yao/foodie-cloud-config
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+server:
+  port: 30003

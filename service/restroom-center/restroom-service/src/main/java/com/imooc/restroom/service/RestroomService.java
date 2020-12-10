@@ -33,6 +33,8 @@ public class RestroomService implements IRestroomTccService {
 
     @Value("${test.value:defaultvalue}")
     private String nacosValue;
+    @Value("${config.title:defaultvalue}")
+    private String configValue;
 
     @Value("${restroom.disable:false}")
     private boolean disableRestroom;
@@ -133,7 +135,7 @@ public class RestroomService implements IRestroomTccService {
             method = RequestMethod.POST)
     @ResponseBody
     public ToiletResponse testProto(@RequestParam("id") Long id) {
-        log.info("test proto id={}, nacosValue={}", id, nacosValue);
+        log.info("test proto id={}, nacosValue={}, configValue={}", id, nacosValue, configValue);
         return ToiletResponse.newBuilder()
                 .setId(id)
                 .build();

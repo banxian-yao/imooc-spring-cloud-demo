@@ -1,0 +1,13 @@
+encrypt:
+  # keytool -genkeypair -alias mykey -keyalg RSA -keypass changeit -keystore config-key.jks -storepass changeit
+  key-store:
+    location: classpath:/config-key.jks
+    alias: mykey
+    password: changeit
+    secret: changeit
+
+#    location: classpath:/config-key.jks
+#    alias: config-key
+#    password: changeit
+#    secret: changeit
+#  key: bx

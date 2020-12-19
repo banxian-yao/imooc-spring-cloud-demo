@@ -2,6 +2,11 @@
 spring:
   application:
     name: config-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       server:
@@ -48,3 +53,17 @@ spring:
 
 server:
   port: 30003
+
+
+management:
+  endpoint:
+    health:
+      # 总是显示各个组件的actuator信息
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        # 暴露所有endpoint
+        include: '*'
+  security:
+    enabled: false

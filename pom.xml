@@ -14,6 +14,7 @@
         <module>platform/turbine</module>
         <module>platform/hystrix-dashboard</module>
         <module>platform/config-server</module>
+        <module>platform/gateway</module>
     </modules>
     <packaging>pom</packaging>
 

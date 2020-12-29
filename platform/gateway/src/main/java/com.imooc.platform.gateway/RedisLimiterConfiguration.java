@@ -15,6 +15,8 @@ public class RedisLimiterConfiguration {
     @Primary
     public KeyResolver remoteAddrKeyResolver() {
         return exchange -> Mono.just(
+//                exchange.getRequest().getQueryParams().getFirst("userId")
+//                exchange.getRequest().getPath().value()
                 exchange.getRequest()
                         .getRemoteAddress()
                         .getAddress()

@@ -2,11 +2,11 @@ spring:
   application:
     name: gateway-service
   redis:
-    host: localhost
+    host: 127.0.0.1
     port: 6379
     database: 0
     # 如果redis有密码则加上
-    # password: imooc
+#    password: imooc
   cloud:
     nacos:
       discovery:
@@ -40,6 +40,8 @@ spring:
 server:
   port: 30004
 
+
+
 ## 开启所有actuator-endpoint
 management:
   endpoint:
@@ -51,3 +53,23 @@ management:
         include: '*'
   security:
     enabled: false
+
+hystrix:
+  command:
+    # 有的属性是默认值，写不写都行
+    fallback2:
+      fallback:
+        enabled: true
+      circuitBreaker:
+        enabled: true
+        errorThresholdPercentage: 50
+        requestVolumeThreshold: 5
+        sleepWindowInMilliseconds: 10000
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            interruptOnTimeout: true
+            interruptOnFutureCancel: true
+            timeoutInMilliseconds: 3000

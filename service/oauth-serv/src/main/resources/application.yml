@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: oauth-serv
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  redis:
+    host: 127.0.0.1
+    database: 0
+server:
+  port: 23000

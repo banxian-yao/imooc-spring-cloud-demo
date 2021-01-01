@@ -15,6 +15,7 @@
         <module>platform/hystrix-dashboard</module>
         <module>platform/config-server</module>
         <module>platform/gateway</module>
+        <module>service/oauth-serv</module>
     </modules>
     <packaging>pom</packaging>
 

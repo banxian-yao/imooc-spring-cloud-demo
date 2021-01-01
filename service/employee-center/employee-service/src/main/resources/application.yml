@@ -190,3 +190,18 @@ hystrix:
             interruptOnCancel: true # 取消调用后是否中断线程
           semaphore:
             maxConcurrentRequests: 10 #最大并发请求数
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:23000/user/endpoint
+#      id: client-a
+    authorization:
+      check-token-access: http://localhost:23000/oauth/check_token
+    client:
+      access-token-uri: http://localhost:23000/oauth/token
+#      grant-type: client_credentials,password
+#      scope: server
+      client-id: client-a
+      client-secret: YBX
+      user-authorization-uri: http://localhost:23000/oauth/authorize

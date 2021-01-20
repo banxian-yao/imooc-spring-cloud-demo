@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.imooc.restroom.converter.ToiletConverter;
 import com.imooc.restroom.dao.ToiletDao;
 import com.imooc.restroom.entity.ToiletEntity;
+import com.imooc.restroom.mq.CleanRestroomQueue;
 import com.imooc.restroom.pojo.Toilet;
 import com.imooc.restroom.proto.beans.ToiletResponse;
 import io.seata.rm.tcc.api.BusinessActionContext;
@@ -14,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,6 +118,22 @@ public class RestroomService implements IRestroomTccService {
             log.error("cannot occupy the restromm", e);
             throw e;
         }
+    }
+
+    @Autowired
+    private CleanRestroomQueue cleanRestroomQueue;
+
+    @Transactional
+    @PostMapping("/release-mq")
+    public String releaseViaQueue(Long id) {
+        log.info("release-mq, id={}", id);
+        Message message = MessageBuilder
+                .withPayload(id)
+                .build();
+        log.info("message body is {}", message);
+
+        boolean success = cleanRestroomQueue.output().send(message);
+        return success ? "正在处理中" : "处理失败";
     }
 
     @Override

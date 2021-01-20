@@ -45,6 +45,15 @@ spring:
 #      discovery:
 #        enabled: true
   cloud:
+    stream:
+      bindings:
+        rm-consumer:
+          destination: rm-clean-topic
+#          group: mygroup1
+          consumer:
+            max-attempts: 1
+        rm-producer:
+          destination: rm-clean-topic
     sentinel:
       transport:
         dashboard: localhost:8080

@@ -49,11 +49,18 @@ spring:
       bindings:
         rm-consumer:
           destination: rm-clean-topic
-#          group: mygroup1
+          group: my-group
           consumer:
+            partitioned: true
             max-attempts: 1
         rm-producer:
           destination: rm-clean-topic
+          producer:
+            partition-count: 2
+            # SpEL表达式自由发挥
+            partition-key-expression: '0'
+      instance-count: 2
+      instance-index: 0
     sentinel:
       transport:
         dashboard: localhost:8080

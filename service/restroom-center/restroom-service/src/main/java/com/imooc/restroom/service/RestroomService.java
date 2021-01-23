@@ -130,6 +130,7 @@ public class RestroomService implements IRestroomTccService {
         Message message = MessageBuilder
                 .withPayload(id)
                 .setHeader("version", id != 1 ? "1.0" : "2.0")
+                .setHeader("x-delay", 2 * 1000)
                 .build();
         log.info("message body is {}", message);
 

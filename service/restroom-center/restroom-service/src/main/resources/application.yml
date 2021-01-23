@@ -46,15 +46,19 @@ spring:
 #        enabled: true
   cloud:
     stream:
+      rabbit:
+        bindings:
+          rm-producer:
+            producer:
+              delayed-exchange: true
       bindings:
         rm-consumer:
-          destination: rm-clean-topic
-          group: my-group
+          destination: rm-clean-delayed-topic
           consumer:
             partitioned: true
-            max-attempts: 1
+          group: my-group
         rm-producer:
-          destination: rm-clean-topic
+          destination: rm-clean-delayed-topic
           producer:
             partition-count: 2
             # SpEL表达式自由发挥

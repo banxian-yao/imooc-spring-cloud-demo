@@ -129,6 +129,7 @@ public class RestroomService implements IRestroomTccService {
         log.info("release-mq, id={}", id);
         Message message = MessageBuilder
                 .withPayload(id)
+                .setHeader("version", id != 1 ? "1.0" : "2.0")
                 .build();
         log.info("message body is {}", message);
 

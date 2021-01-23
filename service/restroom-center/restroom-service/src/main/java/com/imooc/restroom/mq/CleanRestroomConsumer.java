@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
@@ -37,11 +38,12 @@ public class CleanRestroomConsumer {
         toiletDao.save(entity);
 
     }
+    //配置接收"hotDrinks"队列，处理后，把结果发给队列prepareColdDrink
+//    @ServiceActivator(inputChannel="inputA", outputChannel="output-B")
 
-//    // 多次失败触发降级流程
-//    @ServiceActivator(inputChannel = "request-coupon-topic.coupon-user-serv-group.errors")
-//    public void fallback(Message<RequestCoupon> message) {
-//        log.info("fallback logic here");
-//        throw new RuntimeException("error");
-//    }
+    // 多次失败触发降级流程
+    @ServiceActivator(inputChannel = "rm-clean-delayed-topic.my-group.errors")
+    public void fallback(Message<Long> message) {
+        log.info("fallback logic here, message={}", message);
+    }
 }

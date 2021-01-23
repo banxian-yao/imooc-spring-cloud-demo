@@ -57,10 +57,10 @@ spring:
               delayed-exchange: true
       bindings:
         rm-consumer:
-          destination: rm-clean-delayed-topic4
+          destination: rm-clean-delayed-topic
           consumer:
 #            partitioned: true
-            max-attempts: 1
+            max-attempts: 3
             back-off-multiplier: 2.0
             back-off-initial-interval: 500
             back-off-max-interval: 200000
@@ -68,7 +68,7 @@ spring:
               java.lang.RuntimeException: true
           group: my-group
         rm-producer:
-          destination: rm-clean-delayed-topic4
+          destination: rm-clean-delayed-topic
 #          producer:
 #            partition-count: 2
 #            # SpEL表达式自由发挥

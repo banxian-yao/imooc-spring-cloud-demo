@@ -25,7 +25,8 @@ public class CleanRestroomConsumer {
 
         if (StringUtils.equalsIgnoreCase(version, "1.0")) {
             log.info("api 1.0 is no longer supported");
-            return;
+//            Thread.sleep(1000);
+            throw new RuntimeException("api 1.0 is not supported");
         }
 
         log.info("message consumed, body={}", message);
